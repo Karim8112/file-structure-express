@@ -30,7 +30,13 @@
     "axios": "^1.19.0",
     "express": "^5.2.1",
     "fs": "^0.0.1-security",
+    "morgan": "^1.11.0",
+    "pino-http": "^11.0.0",
     "slugify": "^1.6.9",
     "superagent": "^10.3.0"
+  },
+  "allowScripts": {
+    "pino-http@11.0.0": true,
+    "morgan@1.11.0": true
   }
 }

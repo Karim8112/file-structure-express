@@ -1,14 +1,21 @@
 import express from "express";
-import { baseURL, config } from "./constants/core.js";
+import { baseURL } from "./constants/core.js";
+// middlewares
+import AddTimeMiddleware from "./middlewares/addTime.js";
 
+// routes
 import tourRouter from "./routes/Product.js";
 
 const app = express();
 
-// general middleware
+//-------- general middleware -------------
+// npm middlewares
 app.use(express.json());
+app.use(express.static("static"));
 
-// routing middleware
+// custom middlewares
+app.use(AddTimeMiddleware);
+// -------- routing middleware -------------
 app.use(`/${baseURL}`, tourRouter);
 
 export default app;
