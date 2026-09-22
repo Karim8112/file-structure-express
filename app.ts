@@ -1,5 +1,6 @@
 import express from "express";
 import { baseURL } from "./constants/core.js";
+import axios from "axios";
 // middlewares
 import AddTimeMiddleware from "./middlewares/addTime.js";
 
@@ -17,5 +18,12 @@ app.use(express.static("static"));
 app.use(AddTimeMiddleware);
 // -------- routing middleware -------------
 app.use(`/${baseURL}`, tourRouter);
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Welcome to the API",
+  });
+});
 
 export default app;
