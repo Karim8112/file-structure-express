@@ -4,7 +4,7 @@ dns.setDefaultResultOrder("ipv4first");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // const uri = process.env.CONNECTION_STRING?.replace(
 //   "<PASSWORD>",
-//   process.env.DATABASE_PASSWORD as string,
+//   process.env.DATABASE_PASSWORD as s tring,
 // );
 
 // // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -34,15 +34,19 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // }
 
 import mongoose from "mongoose";
-const DB = process.env.CONNECTION_STRING;
+const DB =
+  process.env.CONNECTION_STRING ||
+  "mongodb+srv://kareemhappal_db_user:tcMjiZoiRsMKwpc0@cluster0.qapo0oj.mongodb.net/?appName=Cluster0";
 const Connect_DB = async function () {
   mongoose
-    .connect(DB as string, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
+    .connect(DB, {
+      maxPoolSize: 10,
+      family: 4,
     })
-    .then(() => console.log("DB connection successful!"));
+    .then(() => console.log("DB connection successful!"))
+    .catch((err) => {
+      console.log("failed with error:\n", err);
+    });
 };
 
 export default Connect_DB;
