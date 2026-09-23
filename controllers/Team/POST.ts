@@ -5,13 +5,19 @@ async function PostTeam(
   res: express.Response,
 ) {
   try {
-    await Team.create(req.body);
-    res.status(201).json({
-      status: "success",
-      data: {
-        tour: req.body,
-      },
-    });
+    const success = await Team.create(req.body);
+    if (success) {
+      res.status(201).json({
+        status: "success",
+        data: {
+          tour: req.body,
+        },
+      });
+    } else {
+      res.status(400).json({
+        status: "failed",
+      });
+    }
   } catch (err) {
     res.status(400).json({
       status: "failed",

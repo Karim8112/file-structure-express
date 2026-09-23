@@ -1,8 +1,8 @@
-import DeleteTour from "../controllers/Tours/DELETE.js";
+import DeleteTeam from "../controllers/Team/DELETE.js";
 import express from "express";
 import GetAllTeam from "../controllers/Team/GET_ALL.js";
-import GetTourById from "../controllers/Tours/GET.js";
-import patchTour from "../controllers/Tours/PATCH.js";
+import GetTeamById from "../controllers/Team/GET.js";
+import patchTeam from "../controllers/Team/PATCH.js";
 import postTeam from "../controllers/Team/POST.js";
 
 const router = express.Router();
@@ -11,9 +11,9 @@ const router = express.Router();
 
 router
   .route(`/team/:id`)
-  .delete(DeleteTour /* ,checkId */)
-  .get(GetTourById /* ,checkId */)
-  .patch(patchTour /* ,checkId */);
+  .delete(DeleteTeam /* ,checkId */)
+  .get(GetTeamById /* ,checkId */)
+  .patch(patchTeam /* ,checkId */);
 // tours
 router.route(`/team`).get(GetAllTeam).post(postTeam /* ,checkBody */);
 

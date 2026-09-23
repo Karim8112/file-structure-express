@@ -1,51 +1,25 @@
-import fs from "fs";
+import { Team } from "../../models/Team.js";
 import express from "express";
-const __dirname = import.meta.dirname;
 
-function patchTour(
+async function patchTeam(
   req: express.Request<{ id: string }>,
   res: express.Response,
 ) {
   const { id } = req.params;
-
-  let tours = JSON.parse(
-    String(
-      fs.readFileSync(`${__dirname}/../../dev-data/data/tours-simple.json`),
-    ),
-  );
-
-  let foundTour = tours.find((el: any) => el.id === Number(id));
-
-  if (!foundTour) {
-    res.status(404).json({
-      message: "element not found",
+  try {
+    const team_memeber = await Team.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
     });
-  } else {
-    foundTour = { ...foundTour, ...req.body };
-    tours = tours.filter((el: any) => el.id != foundTour.id);
-    tours.push(foundTour);
-    fs.writeFile(
-      `${__dirname}/../../dev-data/data/tours-simple.json`,
-      JSON.stringify(tours),
-      (err) => {
-        if (err) {
-          res.status(404).json({
-            message: "failed to update",
-          });
-        } else {
-          res.json({
-            status: "success",
-            data: {
-              ...foundTour,
-            },
-          });
-        }
-      },
-    );
-    res.status(200);
+    res.status(200).json({ status: "success", data: { team_memeber } });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: error,
+    });
   }
 }
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default patchTour;
+export default patchTeam;

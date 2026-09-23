@@ -1,45 +1,22 @@
-import fs from "fs";
+import { Team } from "../../models/Team.js";
 import express from "express";
-const __dirname = import.meta.dirname;
 
-function DeleteTour(
+async function deleteTeam(
   req: express.Request<{ id: string }>,
   res: express.Response,
 ) {
   const { id } = req.params;
-
-  let tours = JSON.parse(
-    String(
-      fs.readFileSync(`${__dirname}/../../dev-data/data/tours-simple.json`),
-    ),
-  );
-  let foundTour = tours.find((el: any) => el.id === Number(id));
-
-  if (!foundTour) {
-    res.status(404).json({
-      message: "element not found",
+  try {
+    const team_memeber = await Team.findByIdAndDelete(id);
+    res.status(200).json({ status: "success", data: { team_memeber } });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: error,
     });
-    // ////////////////////////////////
-  } else {
-    tours = tours.filter((el: any) => el.id !== foundTour.id);
-    // ---------------------------------
-    console.log(tours);
-    fs.writeFile(
-      `${__dirname}/../../dev-data/data/tours-simple.json`,
-      JSON.stringify(tours),
-      (err) => {
-        if (err) {
-          res.status(404).json({
-            message: "failed to delete",
-          });
-        } else {
-          res.status(200);
-        }
-      },
-    );
-    res.status(200);
-    res.json(null);
   }
 }
 
-export default DeleteTour;
+// تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
+
+export default deleteTeam;

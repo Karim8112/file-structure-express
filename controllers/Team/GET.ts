@@ -1,37 +1,28 @@
-import fs from "fs";
+import { Team } from "../../models/Team.js";
 import express from "express";
-const __dirname = import.meta.dirname;
 
-function GetTourById(
+async function GetTeamById(
   req: express.Request<{ id: string }>,
   res: express.Response,
 ) {
   const { id } = req.params;
-  console.log(id);
 
-  const tours = JSON.parse(
-    String(
-      fs.readFileSync(`${__dirname}/../../dev-data/data/tours-simple.json`),
-    ),
-  );
-
-  const tour = tours.find((el: any) => el?.id === Number(id));
-
-  if (!tour) {
-    res.status(404).json({
-      message: "element not found",
-    });
-  } else {
-    res.status(200);
-    res.json({
+  try {
+    const team_member: typeof Team | null = await Team.findById(id);
+    res.status(200).json({
       status: "success",
       data: {
-        ...tour,
+        ...team_member,
       },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "failed",
+      message: err,
     });
   }
 }
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default GetTourById;
+export default GetTeamById;
