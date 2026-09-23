@@ -1,0 +1,20 @@
+import DeleteTour from "../controllers/Tours/DELETE.js";
+import express from "express";
+import GetAllTeam from "../controllers/Team/GET_ALL.js";
+import GetTourById from "../controllers/Tours/GET.js";
+import patchTour from "../controllers/Tours/PATCH.js";
+import postTeam from "../controllers/Team/POST.js";
+
+const router = express.Router();
+// -----------middlewares----------
+// router.param('id', checkId) // so way better to use this method instead of using chain with every route
+
+router
+  .route(`/team/:id`)
+  .delete(DeleteTour /* ,checkId */)
+  .get(GetTourById /* ,checkId */)
+  .patch(patchTour /* ,checkId */);
+// tours
+router.route(`/team`).get(GetAllTeam).post(postTeam /* ,checkBody */);
+
+export default router;

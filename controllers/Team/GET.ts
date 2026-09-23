@@ -2,7 +2,7 @@ import fs from "fs";
 import express from "express";
 const __dirname = import.meta.dirname;
 
-function GetProductById(
+function GetTourById(
   req: express.Request<{ id: string }>,
   res: express.Response,
 ) {
@@ -34,4 +34,4 @@ function GetProductById(
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default GetProductById;
+export default GetTourById;

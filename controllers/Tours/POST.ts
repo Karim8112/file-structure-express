@@ -2,7 +2,7 @@ import fs from "fs";
 import express from "express";
 const __dirname = import.meta.dirname;
 
-function PostProduct(req: express.Request, res: express.Response) {
+function PostTour(req: express.Request, res: express.Response) {
   const tours = JSON.parse(
     String(
       fs.readFileSync(`${__dirname}/../../dev-data/data/tours-simple.json`),
@@ -42,6 +42,6 @@ function PostProduct(req: express.Request, res: express.Response) {
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default PostProduct;
+export default PostTour;
 
 // ------------------------------------------------------------------

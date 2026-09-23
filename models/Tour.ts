@@ -1,4 +1,4 @@
-export type Product = {
+export type Tour = {
   id: number;
   name: string;
   duration: number;
@@ -14,7 +14,7 @@ export type Product = {
   startDates: string[];
 };
 
-export type ProductsResponse = {
+export type ToursResponse = {
   total: number;
-  products: Product[];
+  products: Tour[];
 };

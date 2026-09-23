@@ -45,7 +45,7 @@ const Connect_DB = async function () {
     })
     .then(() => console.log("DB connection successful!"))
     .catch((err) => {
-      console.log("failed with error:\n", err);
+      console.log("failed with error:\n");
     });
 };
 

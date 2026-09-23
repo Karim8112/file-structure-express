@@ -2,7 +2,7 @@ import fs from "fs";
 import express from "express";
 const __dirname = import.meta.dirname;
 
-function patchProduct(
+function patchTour(
   req: express.Request<{ id: string }>,
   res: express.Response,
 ) {
@@ -48,4 +48,4 @@ function patchProduct(
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default patchProduct;
+export default patchTour;

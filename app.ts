@@ -1,11 +1,12 @@
 import express from "express";
 import { baseURL } from "./constants/core.js";
-import axios from "axios";
+
 // middlewares
 import AddTimeMiddleware from "./middlewares/addTime.js";
 
 // routes
-import tourRouter from "./routes/Product.js";
+import tourRouter from "./routes/Tour.js";
+import TeamRouter from "./routes/Team.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.static("static"));
 app.use(AddTimeMiddleware);
 // -------- routing middleware -------------
 app.use(`/${baseURL}`, tourRouter);
+app.use(`/${baseURL}`, TeamRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({
