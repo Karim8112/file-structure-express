@@ -1,16 +1,16 @@
 import express from "express";
-import { Team } from "../../models/Team.js";
-async function PostTeam(
-  req: express.Request<typeof Team>,
+import { Project } from "../../models/Project.js";
+async function PostProject(
+  req: express.Request<typeof Project>,
   res: express.Response,
 ) {
   try {
-    const success = await Team.create(req.body);
+    const success = await Project.create(req.body);
     if (success) {
       res.status(201).json({
         status: "success",
         data: {
-          team_member: req.body,
+          project: req.body,
         },
       });
     } else {
@@ -28,6 +28,6 @@ async function PostTeam(
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
-export default PostTeam;
+export default PostProject;
 
 // ------------------------------------------------------------------
