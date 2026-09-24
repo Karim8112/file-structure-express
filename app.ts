@@ -8,7 +8,7 @@ import AddTimeMiddleware from "./middlewares/addTime.js";
 // import tourRouter from "./routes/Tour.js";
 import TeamRouter from "./routes/Team.js";
 import ProjectRouter from "./routes/Project.js";
-import AuthRouter from "./routes/Project.js";
+import AuthRouter from "./routes/Auth.js";
 
 const app = express();
 
