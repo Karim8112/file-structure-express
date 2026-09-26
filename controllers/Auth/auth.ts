@@ -2,9 +2,20 @@ import jwt, { type SignOptions } from "jsonwebtoken";
 import { User } from "../../models/User.js";
 import express from "express";
 
-async function login(req: express.Request<typeof User>, res: express.Response) {
+interface AuthRequestBody {
+  userName?: string;
+  password?: string;
+}
+
+async function login(
+  req: express.Request<AuthRequestBody>,
+  res: express.Response,
+) {
   try {
-    const { userName, password } = req.body;
+    const userName = req.body.userName;
+    const password = req.body.password;
+    console.log(userName, password);
+    console.log(typeof userName, typeof password);
     if (!userName || !password) {
       res.status(400).json({
         status: "failed",
@@ -12,9 +23,7 @@ async function login(req: express.Request<typeof User>, res: express.Response) {
       });
     }
     const found_user = await User.findOne({ userName: userName });
-    console.log(typeof found_user?.password, found_user?.password);
-    console.log(typeof userName, userName);
-
+    console.log(found_user?.password);
     if (!found_user || found_user.password != password) {
       res.status(400).json({
         status: "failed",
