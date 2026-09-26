@@ -13,9 +13,12 @@ const router = express.Router();
 router
   .route(`/team/:id`)
   .delete(DeleteTeam /* ,checkId */)
-  .get(GetTeamById, protectRoute /* ,checkId */)
+  .get(GetTeamById /* ,checkId */)
   .patch(patchTeam /* ,checkId */);
 // tours
-router.route(`/team`).get(GetAllTeam).post(postTeam /* ,checkBody */);
+router
+  .route(`/team`)
+  .get(protectRoute, GetAllTeam)
+  .post(postTeam /* ,checkBody */);
 
 export default router;
