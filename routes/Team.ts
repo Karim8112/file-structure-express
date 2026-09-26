@@ -4,6 +4,7 @@ import GetAllTeam from "../controllers/Team/GET_ALL.js";
 import GetTeamById from "../controllers/Team/GET.js";
 import patchTeam from "../controllers/Team/PATCH.js";
 import postTeam from "../controllers/Team/POST.js";
+import protectRoute from "../controllers/Auth/protectRoute.js";
 
 const router = express.Router();
 // -----------middlewares----------
@@ -12,7 +13,7 @@ const router = express.Router();
 router
   .route(`/team/:id`)
   .delete(DeleteTeam /* ,checkId */)
-  .get(GetTeamById /* ,checkId */)
+  .get(GetTeamById, protectRoute /* ,checkId */)
   .patch(patchTeam /* ,checkId */);
 // tours
 router.route(`/team`).get(GetAllTeam).post(postTeam /* ,checkBody */);

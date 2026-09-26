@@ -7,6 +7,12 @@ interface AuthRequestBody {
   password?: string;
 }
 
+function generateToken(_id: string) {
+  const expiresIn = process.env.JWT_EXPIRES_IN;
+  const signOptions: SignOptions | {} = expiresIn ? { expiresIn } : {};
+  return jwt.sign({ id: _id }, process.env.JWT_SECRET as string, signOptions);
+}
+
 async function login(
   req: express.Request<AuthRequestBody>,
   res: express.Response,
@@ -14,8 +20,7 @@ async function login(
   try {
     const userName = req.body.userName;
     const password = req.body.password;
-    console.log(userName, password);
-    console.log(typeof userName, typeof password);
+
     if (!userName || !password) {
       res.status(400).json({
         status: "failed",
@@ -23,23 +28,16 @@ async function login(
       });
     }
     const found_user = await User.findOne({ userName: userName });
-    console.log(found_user?.password);
     if (!found_user || found_user.password != password) {
       res.status(400).json({
         status: "failed",
         message: "user name or password is invalid",
       });
     } else {
-      const expiresIn = process.env.JWT_EXPIRES_IN;
-      const signOptions: SignOptions | {} = expiresIn ? { expiresIn } : {};
-      const token = jwt.sign(
-        { id: found_user._id },
-        process.env.JWT_SECRET as string,
-        signOptions,
-      );
+      const token = generateToken(found_user._id as string);
       res.status(200).json({
         status: "success",
-        token,
+        token: token,
       });
     }
   } catch {
