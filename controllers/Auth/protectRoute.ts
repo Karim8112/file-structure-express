@@ -1,21 +1,22 @@
-import express from "express";
+import express, { type RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../../models/User.js";
 import { ObjectId } from "mongodb";
 
-async function protectRoute(
+export const protectRoute: RequestHandler = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
-) {
+) => {
   // 1) verify token exist
   try {
     let token = req.headers.authorization;
     if (!token || !token.startsWith("Bearer")) {
-      return res.status(401).json({
+      res.status(401).json({
         status: "failed",
         message: "you are not logged in!!",
       });
+      return;
     }
     // 2) verify token with JWT secret (i don't hell know where the expire date?)
     token = token.split(" ")[1];
@@ -25,10 +26,11 @@ async function protectRoute(
         process.env.JWT_SECRET as string,
       );
       if (typeof decoded === "string" || !("id" in decoded)) {
-        return res.status(401).json({
+        res.status(401).json({
           status: "failed",
           message: "invalid token",
         });
+        return;
       }
       console.log(decoded.id);
 
@@ -36,26 +38,30 @@ async function protectRoute(
       const found_user = await User.findOne({ _id: new ObjectId(decoded.id) });
 
       if (!found_user) {
-        return res.status(401).json({
+        res.status(401).json({
           status: "failed",
           message: "User no longer exist",
         });
+        return;
       }
 
       // verify it the user didn't change his password later
+      // passing to the next middleware
       next();
     } catch {
-      return res.status(401).json({
+      res.status(401).json({
         status: "failed",
         message: "invalid token",
       });
+      return;
     }
   } catch {
-    return res.status(401).json({
+    res.status(401).json({
       status: "failed",
       message: "connection error",
     });
+    return;
   }
-}
+};
 
 export default protectRoute;

@@ -1,9 +1,10 @@
 import express from "express";
 import { Team } from "../../models/Team.js";
-async function PostTeam(
-  req: express.Request<typeof Team>,
+import type { RequestHandler } from "express-serve-static-core";
+const PostTeam: RequestHandler = async (
+  req: express.Request,
   res: express.Response,
-) {
+) => {
   try {
     const success = await Team.create(req.body);
     if (success) {
@@ -24,7 +25,7 @@ async function PostTeam(
       message: err,
     });
   }
-}
+};
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 

@@ -1,9 +1,9 @@
-import express from "express";
+import express, { type RequestHandler } from "express";
 import { Project } from "../../models/Project.js";
-async function PostProject(
-  req: express.Request<typeof Project>,
+const PostProject: RequestHandler = async (
+  req: express.Request,
   res: express.Response,
-) {
+) => {
   try {
     const success = await Project.create(req.body);
     if (success) {
@@ -24,7 +24,7 @@ async function PostProject(
       message: err,
     });
   }
-}
+};
 
 // تشغيل الخادم والبدء في مراقبة المنفذ لتلقي طلبات العميل
 
