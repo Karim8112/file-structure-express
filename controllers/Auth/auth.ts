@@ -34,7 +34,7 @@ async function login(
         message: "user name or password is invalid",
       });
     } else {
-      const token = generateToken(found_user._id as string);
+      const token = generateToken(found_user.id as string);
       res.status(200).json({
         status: "success",
         token: token,

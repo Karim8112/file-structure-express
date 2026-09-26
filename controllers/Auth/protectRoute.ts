@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../../models/User.js";
-import { decode } from "node:punycode";
+import { ObjectId } from "mongodb";
 
 async function protectRoute(
   req: express.Request,
@@ -31,10 +31,16 @@ async function protectRoute(
         });
       }
       console.log(decoded.id);
+
       // verify if user exists (from its _id)
-      User.findOne({ name: "Bassel Al-Zaher" }).then((data) => {
-        console.log(data);
-      });
+      const found_user = await User.findOne({ _id: new ObjectId(decoded.id) });
+
+      if (!found_user) {
+        return res.status(401).json({
+          status: "failed",
+          message: "User no longer exist",
+        });
+      }
 
       // verify it the user didn't change his password later
       next();

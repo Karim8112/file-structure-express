@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  _id: String,
   name: {
     type: String,
     require: [true, "please add a name"],
